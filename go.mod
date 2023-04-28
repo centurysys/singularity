@@ -14,11 +14,11 @@ require (
 	github.com/containerd/containerd v1.7.0
 	github.com/containernetworking/cni v1.1.2
 	github.com/containernetworking/plugins v1.2.0
-	github.com/containers/common v0.52.0
+	github.com/containers/common v0.53.0
 	github.com/containers/image/v5 v5.25.0
 	github.com/cyphar/filepath-securejoin v0.2.3
 	github.com/docker/distribution v2.8.1+incompatible
-	github.com/docker/docker v23.0.3+incompatible
+	github.com/docker/docker v23.0.5+incompatible
 	github.com/docker/go-units v0.5.0
 	github.com/fatih/color v1.15.0
 	github.com/go-log/log v0.2.0
@@ -27,8 +27,8 @@ require (
 	github.com/moby/term v0.0.0-20221205130635-1aeaba878587
 	github.com/opencontainers/go-digest v1.0.0
 	github.com/opencontainers/image-spec v1.1.0-rc2.0.20221005185240-3a7f492d3f1b
-	github.com/opencontainers/runc v1.1.6
-	github.com/opencontainers/runtime-spec v1.1.0-rc.1
+	github.com/opencontainers/runc v1.1.7
+	github.com/opencontainers/runtime-spec v1.1.0-rc.2
 	github.com/opencontainers/runtime-tools v0.9.1-0.20221107090550-2e043c6bd626
 	github.com/opencontainers/selinux v1.11.0
 	github.com/opencontainers/umoci v0.4.7
@@ -37,7 +37,7 @@ require (
 	github.com/samber/lo v1.38.1
 	github.com/seccomp/libseccomp-golang v0.10.0
 	github.com/shopspring/decimal v1.3.1
-	github.com/sigstore/sigstore v1.6.2
+	github.com/sigstore/sigstore v1.6.3
 	github.com/sirupsen/logrus v1.9.0
 	github.com/spf13/cobra v1.7.0
 	github.com/spf13/pflag v1.0.5
@@ -46,7 +46,7 @@ require (
 	github.com/sylabs/scs-key-client v0.7.2
 	github.com/sylabs/scs-library-client v1.4.4
 	github.com/sylabs/sif/v2 v2.11.1
-	github.com/vbauerster/mpb/v8 v8.3.0
+	github.com/vbauerster/mpb/v8 v8.4.0
 	golang.org/x/crypto v0.8.0
 	golang.org/x/sys v0.7.0
 	golang.org/x/term v0.7.0
@@ -178,7 +178,7 @@ require (
 	golang.org/x/net v0.9.0 // indirect
 	golang.org/x/sync v0.1.0 // indirect
 	golang.org/x/tools v0.7.0 // indirect
-	google.golang.org/genproto v0.0.0-20230331144136-dcfb400f0633 // indirect
+	google.golang.org/genproto v0.0.0-20230410155749-daa745c078e1 // indirect
 	google.golang.org/grpc v1.54.0 // indirect
 	google.golang.org/protobuf v1.30.0 // indirect
 	gopkg.in/go-jose/go-jose.v2 v2.6.1 // indirect

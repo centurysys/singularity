@@ -21,11 +21,13 @@ import (
 
 	"github.com/container-orchestrated-devices/container-device-interface/pkg/cdi"
 	"github.com/google/uuid"
+	lccgroups "github.com/opencontainers/runc/libcontainer/cgroups"
 	"github.com/opencontainers/runtime-spec/specs-go"
 	"github.com/sylabs/singularity/internal/pkg/buildcfg"
 	"github.com/sylabs/singularity/internal/pkg/cache"
 	"github.com/sylabs/singularity/internal/pkg/cgroups"
 	"github.com/sylabs/singularity/internal/pkg/runtime/launcher"
+	"github.com/sylabs/singularity/internal/pkg/util/fs"
 	"github.com/sylabs/singularity/internal/pkg/util/fs/files"
 	"github.com/sylabs/singularity/pkg/ocibundle"
 	"github.com/sylabs/singularity/pkg/ocibundle/native"
@@ -423,7 +425,7 @@ func (l *Launcher) Exec(ctx context.Context, image string, process string, args 
 	}
 	defer func() {
 		sylog.Debugf("Removing OCI bundle at: %s", bundleDir)
-		if err := os.RemoveAll(bundleDir); err != nil {
+		if err := fs.ForceRemoveAll(bundleDir); err != nil {
 			sylog.Errorf("Couldn't remove OCI bundle %s: %v", bundleDir, err)
 		}
 	}()
@@ -498,9 +500,10 @@ func (l *Launcher) getCgroup() (path string, resources *specs.LinuxResources, er
 	return path, resources, nil
 }
 
-// crunNestCgroup will check whether we are using crun, and enter a cgroup if running as a non-root user.
-// This is required to satisfy a common user-owned ancestor cgroup requirement on e.g. bare ssh logins.
-// See: https://github.com/sylabs/singularity/issues/1538
+// crunNestCgroup will check whether we are using crun, and enter a cgroup if
+// running as a non-root user under cgroups v2, with systemd. This is required
+// to satisfy a common user-owned ancestor cgroup requirement on e.g. bare ssh
+// logins. See: https://github.com/sylabs/singularity/issues/1538
 func (l *Launcher) crunNestCgroup() error {
 	r, err := runtime()
 	if err != nil {
@@ -514,6 +517,12 @@ func (l *Launcher) crunNestCgroup() error {
 
 	// No workaround required if we are run as root.
 	if os.Getuid() == 0 {
+		return nil
+	}
+
+	// We can only create a new cgroup under cgroups v2 with systemd as manager.
+	// Generally we won't hit the issue that needs a workaround under cgroups v1, so no-op instead of a warning here.
+	if !(lccgroups.IsCgroup2UnifiedMode() && l.singularityConf.SystemdCgroups) {
 		return nil
 	}
 
